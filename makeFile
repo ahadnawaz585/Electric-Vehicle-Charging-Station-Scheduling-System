@@ -1,0 +1,31 @@
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -g -I src/includes
+SRCDIR = src/classes
+BUILDDIR = builds
+TARGET = $(BUILDDIR)/charging_station
+
+OBJS = $(BUILDDIR)/main.o \
+       $(BUILDDIR)/ChargingPort.o \
+       $(BUILDDIR)/ChargingStation.o \
+       $(BUILDDIR)/QueueManager.o \
+       $(BUILDDIR)/Scheduler.o \
+       $(BUILDDIR)/Vehicle.o \
+       $(BUILDDIR)/Timer.o \
+       $(BUILDDIR)/Utilities.o
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	@mkdir -p $(BUILDDIR)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
+
+$(BUILDDIR)/%.o: src/%.cpp
+	@mkdir -p $(BUILDDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
+	@mkdir -p $(BUILDDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+clean:
+	rm -rf $(BUILDDIR)
